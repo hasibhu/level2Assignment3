@@ -32,7 +32,7 @@ const getAllUsersController = catchAsync( async (req, res) => {
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
-      message: 'User has been created succesfully',
+      message: 'User has been retrieved succesfully',
       data: result,
     });
   

@@ -2,6 +2,7 @@ import express from 'express';
 import { UserControllers } from './user.controllers';
 import { validateRequest } from '../../middleware/validateRequest';
 import { createUserValidationSchema } from './user.validation';
+import { authValidationMidddleware } from '../../middleware/auth.validationMiddleware';
 
 
 
@@ -18,6 +19,7 @@ router.post(
 
 router.get(
     '/users',
+    authValidationMidddleware(),
     UserControllers.getAllUsersController
 );
 

@@ -1,9 +1,11 @@
 import { Schema, model } from "mongoose";
-import { TUser } from "./user.interface";
+import { TUser, UserModelInInterface } from "./user.interface";
 import bcrypt from 'bcrypt'
 import config from "../../config";
+import AppError from "../../errors/AppError";
+import httpStatus from "http-status";
 
-const userSchema = new Schema<TUser>(  
+const userSchema = new Schema<TUser, UserModelInInterface>(  
   {
     name: {
       type: String,
@@ -12,10 +14,9 @@ const userSchema = new Schema<TUser>(
     email: {
       type: String,
       required: true,
-      // unique: true, // Ensures email is unique in the database
       match: [
         /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-        'Please provide a valid email address', // Error message if validation fails
+        'Please provide a valid email address', 
       ],
     },
     password: {
@@ -26,11 +27,11 @@ const userSchema = new Schema<TUser>(
     role: {
       type: String,
       enum: ['user', 'admin'],
-      default: 'user',  // Default value for role is 'user'
+      default: 'user',  
     },
     isBlocked: {
       type: Boolean,
-      default: false,  // Default value for isBlocked is false
+      default: false,  
     },
     },
   
@@ -43,8 +44,7 @@ const userSchema = new Schema<TUser>(
 
 userSchema.pre('save', async function (next) {
   // eslint-disable-next-line @typescript-eslint/no-this-alias
-  const user = this; // doc
-  // hashing password and save into DB
+  const user = this; 
   user.password = await bcrypt.hash(
     user.password,
     Number(config.bcrypt_salt_rounds),
@@ -62,4 +62,35 @@ userSchema.post('save', function (doc, next) {
 
 
 
-export const  UserModel = model<TUser>('User', userSchema)
+
+userSchema.statics.isUserExistByCustomId = async function (email: string) {
+  return await UserModel.findOne({email})
+}
+
+
+
+userSchema.statics.isUserBlocked = async function (email: string) {
+  const user = await this.findOne({ email });
+
+
+
+
+  if (user?.isBlocked) {
+    throw new AppError(httpStatus.FORBIDDEN, "User is blocked already!!");
+  }
+
+
+  return user; 
+};
+
+
+userSchema.statics.isPasswordMatched = async function (plainTextPassword, hashedPassword) {
+  return await bcrypt.compare(plainTextPassword, hashedPassword)
+
+}
+
+
+
+
+
+export const  UserModel = model<TUser, UserModelInInterface>('User', userSchema)
