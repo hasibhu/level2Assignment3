@@ -9,6 +9,7 @@ interface IBlog extends Document {
   title: string;
   content: string;
   author: IAuthor;
+  isPublished: Boolean;
 }
 
 const AuthorSchema = new Schema<IAuthor>({
@@ -16,14 +17,24 @@ const AuthorSchema = new Schema<IAuthor>({
   email: { type: String, required: true },
 });
 
-const BlogSchema = new Schema<IBlog>({
+
+
+const BlogSchema = new mongoose.Schema(
+  {
   title: { type: String, required: true },
   content: { type: String, required: true },
-  author: { type: AuthorSchema, required: true },
-},
+  isPublished: { type: Boolean, default: false },
+  author: {
+    name: { type: String, required: true },
+    email: { type: String, required: true },
+    }
+  }, 
+  
   {
   timestamps:true
-});
+  }
+);
+
 
 export const BlogModel = mongoose.model<IBlog>("Blog", BlogSchema);
 

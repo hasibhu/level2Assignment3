@@ -9,4 +9,5 @@ export interface TBlog {
     name: string;
     email: string;
   };
+  isPublished: boolean
 }

@@ -11,7 +11,7 @@ import catchAsync from "../../utils/catchAsync";
 
 
 export const blogValidationMidddleware = () => {
-  return catchAsync(async (req, res, next) => {
+  return catchAsync(async (req ,  res, next) => {
     const authorizationHeader = req.headers.authorization;
 
     if (!authorizationHeader) {
@@ -28,7 +28,7 @@ export const blogValidationMidddleware = () => {
 
   
 
-      if (decoded.role === 'admin') {
+      if (decoded.role === 'user') {
         throw new AppError(httpStatus.CONFLICT, "Admin is not allowed to create blog!!");
       }
 
