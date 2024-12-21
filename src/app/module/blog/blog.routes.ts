@@ -25,6 +25,12 @@ router.patch("/:id",
     validateRequest(BlogValidations.updateBlogValidationSchema),
     blogValidationMidddleware(),
     blogControllers.updateBlog
+);
+    
+
+router.delete("/:id",
+    blogValidationMidddleware(),
+    blogControllers.deleteBlog
     );
 
 

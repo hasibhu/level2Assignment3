@@ -20,7 +20,7 @@ const createBlogInDB = async (payload: TBlog) => {
 };
 
 
-// update course into db 
+// update blog into db 
 const updateCourseIntoDB = async (id: string, payload: Partial<TBlog>) => {
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -28,8 +28,8 @@ const updateCourseIntoDB = async (id: string, payload: Partial<TBlog>) => {
   }
 
     if (Object.keys(payload).length === 0) {
-  throw new AppError(httpStatus.BAD_REQUEST, 'At least one field must be updated!');
-}
+        throw new AppError(httpStatus.BAD_REQUEST, 'At least one field must be updated!');
+    }
 
         // basic info update 
         const updateBlogInfo = await BlogModel.findByIdAndUpdate(
@@ -50,7 +50,14 @@ const updateCourseIntoDB = async (id: string, payload: Partial<TBlog>) => {
 }
 
 
-
+// delete blog by user 
+const deleteBlogFromDB = async (id : string) => {
+    
+    
+    const result = await BlogModel.findByIdAndDelete(id, {isDeleted: true})
+   
+    return result;
+}
 
 
 
@@ -58,5 +65,6 @@ const updateCourseIntoDB = async (id: string, payload: Partial<TBlog>) => {
 
 export const blogServices = {
     createBlogInDB,
-    updateCourseIntoDB
+    updateCourseIntoDB,
+    deleteBlogFromDB
 }

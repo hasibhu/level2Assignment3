@@ -72,7 +72,38 @@ const updateBlog = catchAsync(async (req, res) => {
 })
 
 
+
+
+const deleteBlog = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    throw new AppError(httpStatus.BAD_REQUEST, 'Blog with this id is not available!');
+  }
+
+
+  const result = await blogServices.deleteBlogFromDB(id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Blog has been deleted successfully',
+    data: {
+      success: true,
+      message: 'Blog deleted successfully',
+      statusCode: httpStatus.OK
+    }
+  });
+})
+
+
+
+
+
+
  export const blogControllers = {
    createBlog,
-   updateBlog
+   updateBlog,
+   deleteBlog
  }

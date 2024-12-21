@@ -1,6 +1,4 @@
 
-
-
 import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
 import config from "../../config"; // Assuming this contains JWT secret or token key
@@ -21,6 +19,14 @@ export const blogValidationMidddleware = () => {
         statusCode: 401,
       });
     }
+
+    const tokenHeder = authorizationHeader.split(' ')[0];
+
+    if (tokenHeder !== "Bearer") {
+      throw new AppError(httpStatus.CONFLICT, "Token format 'Bearer <Token>' is accepted only !!");
+    }
+
+
 
     const token = authorizationHeader.split(' ')[1];
 
