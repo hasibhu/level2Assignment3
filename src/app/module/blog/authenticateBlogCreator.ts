@@ -20,9 +20,9 @@ export const blogValidationMidddleware = () => {
       });
     }
 
-    const tokenHeder = authorizationHeader.split(' ')[0];
+    const tokenHeader = authorizationHeader.split(' ')[0];
 
-    if (tokenHeder !== "Bearer") {
+    if (tokenHeader !== "Bearer") {
       throw new AppError(httpStatus.CONFLICT, "Token format 'Bearer <Token>' is accepted only !!");
     }
 

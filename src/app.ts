@@ -15,7 +15,7 @@ app.use(cors());
 
 
 // application routes
-app.use('/app/', router)
+app.use('/', router)
 
 
 

@@ -19,6 +19,11 @@ router.post("/createBlog",
     blogValidationMidddleware(),
     blogControllers.createBlog
 );
+router.get("/blog",
+    // validateRequest(BlogValidations.blogValidationSchema),
+    // blogValidationMidddleware(),
+    blogControllers.getAllBlogs
+);
     
 
 router.patch("/:id",

@@ -16,7 +16,7 @@ const moduleRoutes = [
   },
 
   {
-    path: '/blog',
+    path: '/app/',
     route: BlogRoutes
   }
 ];

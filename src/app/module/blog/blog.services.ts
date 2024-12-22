@@ -20,6 +20,14 @@ const createBlogInDB = async (payload: TBlog) => {
 };
 
 
+// get all blogs 
+
+const getAllBlogsFromDb = () => {
+    const result = BlogModel.find()
+    return result
+}
+
+
 // update blog into db 
 const updateCourseIntoDB = async (id: string, payload: Partial<TBlog>) => {
 
@@ -65,6 +73,7 @@ const deleteBlogFromDB = async (id : string) => {
 
 export const blogServices = {
     createBlogInDB,
+    getAllBlogsFromDb,
     updateCourseIntoDB,
     deleteBlogFromDB
 }
