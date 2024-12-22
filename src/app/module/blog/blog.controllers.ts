@@ -55,14 +55,17 @@ const createBlog = catchAsync(async (req, res) => {
 // get all blos conrolers 
 
 const getAllBlogs = catchAsync(async (req, res) => {
-  const result = await blogServices.getAllBlogsFromDb()
+  const result = await blogServices.getAllBlogsFromDB(req.query);
 
-
+  if (result.length === 0) {
+    throw new AppError( httpStatus.CONFLICT, `Your search does not match any blog.`)
+  }
+  
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Blog retrieved successfully',
-    data: result,
+    message: 'Blogs fetched successfully',
+    data: result
   });
 
 })

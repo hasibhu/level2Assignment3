@@ -19,14 +19,14 @@ router.post("/createBlog",
     blogValidationMidddleware(),
     blogControllers.createBlog
 );
-router.get("/blog",
+router.get("/blogs",
     // validateRequest(BlogValidations.blogValidationSchema),
     // blogValidationMidddleware(),
     blogControllers.getAllBlogs
 );
     
 
-router.patch("/:id",
+router.patch("/blogs/:id",
     validateRequest(BlogValidations.updateBlogValidationSchema),
     blogValidationMidddleware(),
     blogControllers.updateBlog

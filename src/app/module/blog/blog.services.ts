@@ -3,6 +3,7 @@ import AppError from "../../errors/AppError";
 import { TBlog } from "./blog.interface";
 import { BlogModel } from "./blog.model";
 import mongoose from "mongoose";
+import QueryBuilder from "../../queryBuilder/queryBuilder";
 
 
 
@@ -22,10 +23,23 @@ const createBlogInDB = async (payload: TBlog) => {
 
 // get all blogs 
 
-const getAllBlogsFromDb = () => {
-    const result = BlogModel.find()
-    return result
-}
+// const getAllBlogsFromDb = () => {
+//     const result = BlogModel.find()
+//     return result
+// }
+
+
+const getAllBlogsFromDB = async (query: Record<string, unknown>) => {
+  const blogQuery = new QueryBuilder(BlogModel.find(), query)
+    .search(['title', 'content'])
+    .filter()
+    .sort();
+
+  const result = await blogQuery.modelQuery;
+  return result;
+};
+
+
 
 
 // update blog into db 
@@ -73,7 +87,7 @@ const deleteBlogFromDB = async (id : string) => {
 
 export const blogServices = {
     createBlogInDB,
-    getAllBlogsFromDb,
+    getAllBlogsFromDB,
     updateCourseIntoDB,
     deleteBlogFromDB
 }
