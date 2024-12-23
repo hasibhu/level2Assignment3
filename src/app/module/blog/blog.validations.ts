@@ -5,10 +5,14 @@ import { z } from "zod";
 
 const blogValidationSchema = z.object({
     body: z.object({
+        id: z.string({required_error: "id is required"}).optional(),
         title: z.string({required_error: "Title is required"}),
         content: z.string({required_error: "Content is required"})
     })
 })
+
+
+
 
 
 const updateBlogValidationSchema = z.object({

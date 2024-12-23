@@ -35,7 +35,7 @@ router.patch("/blogs/:id",
 );
     
 
-router.delete("/:id",
+router.delete("/blogs/:id",
     blogValidationMidddleware(),
     blogControllers.deleteBlog
     );

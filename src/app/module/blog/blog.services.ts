@@ -11,7 +11,7 @@ import QueryBuilder from "../../queryBuilder/queryBuilder";
 
 
 const createBlogInDB = async (payload: TBlog) => {
-    console.log('payload', payload);
+    // console.log('payload', payload);
  
 
     const result = await BlogModel.create(payload);
@@ -21,12 +21,10 @@ const createBlogInDB = async (payload: TBlog) => {
 };
 
 
-// get all blogs 
 
-// const getAllBlogsFromDb = () => {
-//     const result = BlogModel.find()
-//     return result
-// }
+
+
+
 
 
 const getAllBlogsFromDB = async (query: Record<string, unknown>) => {

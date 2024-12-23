@@ -1,6 +1,7 @@
 import mongoose, { Schema, Document } from "mongoose";
 
 interface IAuthor {
+  // id: string; 
   name: string;
   email: string;
 }
@@ -12,7 +13,13 @@ interface IBlog extends Document {
   isPublished: Boolean;
 }
 
+// const AuthorSchema = new Schema<IAuthor>({
+//   name: { type: String, required: true },
+//   email: { type: String, required: true },
+// });
+
 const AuthorSchema = new Schema<IAuthor>({
+  // id: { type: String, required: true }, // Include author ID
   name: { type: String, required: true },
   email: { type: String, required: true },
 });
@@ -24,7 +31,8 @@ const BlogSchema = new mongoose.Schema(
   title: { type: String, required: true },
   content: { type: String, required: true },
   isPublished: { type: Boolean, default: true },
-  author: {
+    author: {
+    id: { type: String, required: true },
     name: { type: String, required: true },
     email: { type: String, required: true },
     }
@@ -36,6 +44,14 @@ const BlogSchema = new mongoose.Schema(
 );
 
 
+
+
+
+
 export const BlogModel = mongoose.model<IBlog>("Blog", BlogSchema);
+
+
+
+
 
 
