@@ -14,11 +14,13 @@ import { BlogModel } from "./blog.model";
 const router = express.Router();
 
 // POST /api/blogs
-router.post("/createBlog",
+router.post("/blogs",
     validateRequest(BlogValidations.blogValidationSchema),
     blogValidationMidddleware(),
     blogControllers.createBlog
 );
+
+
 router.get("/blogs",
     // validateRequest(BlogValidations.blogValidationSchema),
     // blogValidationMidddleware(),

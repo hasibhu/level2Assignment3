@@ -11,14 +11,14 @@ const router = express.Router();
 
 
 router.post(
-    '/register',
+    '/auth/register',
     validateRequest(createUserValidationSchema),
     UserControllers.createUser
 );
 
 
 router.get(
-    '/users',
+    '/allUsers',
     authValidationMidddleware(),
     UserControllers.getAllUsersController
 );

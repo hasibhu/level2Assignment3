@@ -6,29 +6,130 @@ import { blogServices } from "./blog.services";
 import { TBlog } from "./blog.interface";
 import mongoose from "mongoose";
 import AppError from "../../errors/AppError";
+import { Request, Response } from "express";
 
 
 
-const createBlog = catchAsync(async (req, res) => {
+// const createBlog = catchAsync(async (req, res) => {
+//   const { title, content, isPublished } = req.body;
+
+//   if (!title || !content || isPublished) {
+//     return res.status(400).json({
+//       success: false,
+//       message: "Title and content are required",
+//       statusCode: 400,
+//     });
+//   }
+
+//   // Log req.user to check if it's populated
+//   console.log("Logged-in user:", req.user);
+
+//   if (!req.user) {
+//     return res.status(401).json({
+//       success: false,
+//       message: "User not authenticated",
+//       statusCode: 401,
+//     });
+//   }
+
+//   const payload: TBlog = {
+//     title,
+//     content,
+//     isPublished,
+//     author: {
+//       name: req.user.name,    
+//       email: req.user.userEmail,  
+//     },
+//   };
+
+//   const result = await blogServices.createBlogInDB(payload);
+
+//   sendResponse(res, {
+//     statusCode: httpStatus.CREATED,
+//     success: true,
+//     message: 'Blog created successfully',
+//     data: result,
+//   });
+// });
+
+
+
+
+
+
+
+// get all blos conrolers 
+
+
+// const createBlog = async (req: Request, res: Response) => {
+//   const { title, content, isPublished } = req.body;
+
+//   if (!title || !content || isPublished) {
+//     return res.status(400).json({
+//       success: false,
+//       message: "Title and content are required",
+//       statusCode: 400,
+//     });
+//   }
+
+//   // Log req.user to check if it's populated
+//   console.log("Logged-in user:", req.user);
+
+//   if (!req.user) {
+//     return res.status(401).json({
+//       success: false,
+//       message: "User not authenticated",
+//       statusCode: 401,
+//     });
+//   }
+
+//   const payload: TBlog = {
+//     title,
+//     content,
+//     isPublished,
+//     author: {
+//       name: req.user.name,    
+//       email: req.user.userEmail,  
+//     },
+//   };
+
+//   const result = await blogServices.createBlogInDB(payload);
+
+//   // Instead of returning the response directly, just send it
+//   sendResponse(res, {
+//     statusCode: httpStatus.CREATED,
+//     success: true,
+//     message: 'Blog created successfully',
+//     data: result,
+//   });
+
+//   // Ensure this handler returns `Promise<void>`
+//   return ;
+// };
+
+
+const createBlog = async (req: Request, res: Response): Promise<void> => {
   const { title, content, isPublished } = req.body;
 
   if (!title || !content || isPublished) {
-    return res.status(400).json({
+    res.status(400).json({
       success: false,
       message: "Title and content are required",
       statusCode: 400,
     });
+    return; // Ensure early return
   }
 
   // Log req.user to check if it's populated
   console.log("Logged-in user:", req.user);
 
   if (!req.user) {
-    return res.status(401).json({
+    res.status(401).json({
       success: false,
       message: "User not authenticated",
       statusCode: 401,
     });
+    return; // Ensure early return
   }
 
   const payload: TBlog = {
@@ -43,16 +144,19 @@ const createBlog = catchAsync(async (req, res) => {
 
   const result = await blogServices.createBlogInDB(payload);
 
+  // Send response, don't return it
   sendResponse(res, {
     statusCode: httpStatus.CREATED,
     success: true,
     message: 'Blog created successfully',
     data: result,
   });
-});
+
+  // The handler function now ends without returning anything.
+};
 
 
-// get all blos conrolers 
+
 
 const getAllBlogs = catchAsync(async (req, res) => {
   const result = await blogServices.getAllBlogsFromDB(req.query);

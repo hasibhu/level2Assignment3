@@ -15,7 +15,7 @@ const updateBlogValidationSchema = z.object({
     body: z.object({
         title: z.string().optional(),
         content: z.string().optional(),
-        isPublished: z.boolean().optional(),
+        isPublished: z.boolean().optional().default(true),
         author: z.object({
             name: z.string().optional(),
             email: z.string().email().optional(),

@@ -2,22 +2,27 @@ import { Router } from 'express';
 import { UserRoutes } from '../module/user/user.routes';
 import { AuthRoutes } from '../module/login/login.routes';
 import { BlogRoutes } from '../module/blog/blog.routes';
+import { AdminRoutes } from '../module/admin/admin.routes';
 const router = Router();
 
 const moduleRoutes = [
   {
-    path: '/users',
+    path: '/api/',
     route: UserRoutes,
   },
   
   {
-    path: '/auth',
+    path: '/api',
     route: AuthRoutes,
   },
 
   {
-    path: '/app/',
+    path: '/api/',
     route: BlogRoutes
+  },
+  {
+    path: '/api/',
+    route: AdminRoutes
   }
 ];
 

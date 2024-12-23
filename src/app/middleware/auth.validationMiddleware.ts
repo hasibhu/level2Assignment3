@@ -8,6 +8,11 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 import config from '../config';
 import catchAsync from '../utils/catchAsync';
 
+interface CustomJwtPayload extends JwtPayload {
+  name: string;
+  email: string;
+  role: string;
+}
 
 export const authValidationMidddleware = () => {
 
@@ -45,7 +50,7 @@ export const authValidationMidddleware = () => {
               
               // console.log(decoded);
 
-            req.user = decoded as JwtPayload
+            req.user = decoded as CustomJwtPayload
             
               // console.log('after inserting user in req: ',req.user);
           next(); // Proceed to the next middleware/controller

@@ -1,4 +1,5 @@
 
+
 // import jwt from "jsonwebtoken";
 // import { Request, Response, NextFunction } from "express";
 // import config from "../../config"; // Assuming this contains JWT secret or token key
@@ -8,7 +9,7 @@
 // import catchAsync from "../../utils/catchAsync";
 
 
-// export const blogValidationMidddleware = () => {
+// export const adminValidationMidddleware = () => {
 //   return catchAsync(async (req ,  res, next) => {
 //     const authorizationHeader = req.headers.authorization;
 
@@ -32,19 +33,18 @@
 
 //       const decoded = jwt.verify(token, config.jwt_access_token as string) as { name: string; email: string; role: string };
 
-  
+//     //  console.log(decoded);
 
-//       if (decoded.role === 'user') {
-//         throw new AppError(httpStatus.CONFLICT, "Only an user is  allowed to accomplish this task!!");
+//       if (decoded.role !== 'admin') {
+//         throw new AppError(httpStatus.CONFLICT, "Only an admin is allowed to accomplish this task !!");
 //       }
 
 //       req.user = decoded;
+      
 //       next();
-//     } 
+//     }
 //   )
 // };
-
-
 
 import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
@@ -62,12 +62,11 @@ interface CustomRequest extends Request {
   };
 }
 
-export const blogValidationMidddleware = () => {
+export const adminValidationMidddleware = () => {
   return catchAsync(async (req: CustomRequest, res: Response, next: NextFunction) => {
-    // Safe header access
-    const authorizationHeader = req.headers['authorization'];
+    const authorizationHeader = req.headers['authorization']; // Fix header access
 
-    // Check if Authorization header exists
+    // Check if Authorization header is provided
     if (!authorizationHeader) {
       throw new AppError(httpStatus.UNAUTHORIZED, "Authorization header is required.");
     }
@@ -80,19 +79,19 @@ export const blogValidationMidddleware = () => {
 
     const token = parts[1];
 
-    // Verify token and extract payload
+    // Verify Token
     const decoded = jwt.verify(token, config.jwt_access_token as string) as {
       name: string;
       email: string;
       role: string;
     };
 
-    // Role validation
-    if (decoded.role === "user") {
-      throw new AppError(httpStatus.FORBIDDEN, "Users are not allowed to accomplish this task.");
+    console.log(decoded);
+    if (decoded.role !== 'admin') {
+        throw new AppError(httpStatus.CONFLICT, "Only an admin is allowed to accomplish this task !!");
     }
 
-    // Attach user to request
+    // Attach user to req object
     req.user = decoded;
 
     // Proceed to the next middleware
