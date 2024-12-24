@@ -88,9 +88,9 @@ Success (200):
 
 
 
-#### Blog Management 
+## Blog Management 
 
-## To insert blog content info in DB
+#### To insert blog content info in DB
 * use postman application with POST method with url  https://level2-assignment3-nu.vercel.app/api/blogs
 * data format will be in the following format and business log will add author info like- name, email and author id from the user list 
 ```json
@@ -101,7 +101,7 @@ Success (200):
 ```
 
 
-## To update blog info in DB
+#### To update blog info in DB
 
 * use postman application with PUT method with url https://level2-assignment3-nu.vercel.app/api/blogs/:id
 
@@ -136,6 +136,42 @@ Example Request URL:
  * use postman application with DELETE method with url https://level2-assignment3-nu.vercel.app/api/blogs?search=technology&sortBy=createdAt&sortOrder=desc&filter={authorID}
   please replace the authorID with author id from blog. you may modify other info like searchTerm and so on...
 
+
+
+
+
+## Admin Actions
+
+#### Block User
+* use postman application with PATCH method with url https://level2-assignment3-nu.vercel.app/api/admin/users/:userId/block
+Replace ":userId" with user id from db 
+Request Header:Authorization: Bearer <admin_token>
+
+Response:
+```json
+Success (200):
+{
+  "success": true,
+  "message": "User blocked successfully",
+  "statusCode": 200
+}
+```
+
+
+#### Delete Blog
+* use postman application with PATCH method with url https://level2-assignment3-nu.vercel.app/api/admin/blogs/:id
+Replace ":id" with blog id from db 
+Request Header:Authorization: Bearer <admin_token>
+
+Response:
+```json
+Success (200):
+{
+  "success": true,
+  "message": "Blog deleted successfully",
+  "statusCode": 200
+}
+```
 
 
 ## interface > Schema > Model > DB Query
