@@ -24,9 +24,7 @@ const blockUserByAdminInDB = async (id: string, payload: Partial<TUser>) => {
     console.log(check);
     if (!check) {
         throw new AppError(httpStatus.BAD_REQUEST, `There is no user with ID: ${id}`);
-    }
-
-    
+    };
 
     if (Object.keys(payload).length === 0) {
         throw new AppError(httpStatus.BAD_REQUEST, 'At least one field must be updated!');
@@ -51,7 +49,15 @@ const blockUserByAdminInDB = async (id: string, payload: Partial<TUser>) => {
 };
 
 
-const deleteBlogByAdminFromDB = (id: string)=>{
+const deleteBlogByAdminFromDB = async(id: string) => {
+    
+
+    const check = await BlogModel.findById(id)
+    console.log(check);
+    if (!check) {
+        throw new AppError(httpStatus.BAD_REQUEST, `There is no blog with ID: ${id}`);
+    }
+
     const result = BlogModel.findByIdAndDelete(id, {
             new: true
         })

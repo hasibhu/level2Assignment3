@@ -21,9 +21,6 @@ const createBlogInDB = async (payload: TBlog) => {
 };
 
 
-
-
-
 const getAllBlogsFromDB = async (query: Record<string, unknown>) => {
  
   const blogQuery = new QueryBuilder(BlogModel.find(), query)
@@ -35,11 +32,6 @@ const getAllBlogsFromDB = async (query: Record<string, unknown>) => {
 
   return result;
 };
-
-
-
-
-
 
 
 
