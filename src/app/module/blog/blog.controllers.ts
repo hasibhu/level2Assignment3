@@ -12,8 +12,6 @@ import { UserModel } from "../user/user.model";
 
 
 
-
-
 const createBlog = async (req: Request, res: Response): Promise<void> => {
   const { title, content, isPublished } = req.body;
 
@@ -23,11 +21,9 @@ const createBlog = async (req: Request, res: Response): Promise<void> => {
       message: "Title and content are required",
       statusCode: 400,
     });
-    return; // Ensure early return
+    return; 
   }
 
-  // Log req.user to check if it's populated
-  console.log("Logged-in user:", req.user);
 
   if (!req.user) {
     res.status(401).json({
@@ -38,10 +34,7 @@ const createBlog = async (req: Request, res: Response): Promise<void> => {
     return; // Ensure early return
   }
 
-  console.log('req user info', req.user);
-
   const loggedInUserInfo : any = await UserModel.findOne({ email: req.user.userEmail });
-console.log('user id of user :', loggedInUserInfo._id);
 
   const payload: TBlog = {
     title,
@@ -64,39 +57,30 @@ console.log('user id of user :', loggedInUserInfo._id);
     data: result,
   });
 
-  // The handler function now ends without returning anything.
 };
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-// get all blogs 
-
 const getAllBlogs = catchAsync(async (req, res) => {
+  
   const result = await blogServices.getAllBlogsFromDB(req.query);
 
   if (result.length === 0) {
-    throw new AppError( httpStatus.CONFLICT, `Your search does not match any blog.`)
+    throw new AppError(httpStatus.CONFLICT, `Your search does not match any blog.`);
   }
+
   
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Blogs fetched successfully',
-    data: result
+    data: result,
   });
+});
 
-})
+
+
 
 // update blog
 
@@ -105,7 +89,13 @@ const updateBlog = catchAsync(async (req, res) => {
   
   // Log payload for debugging
   console.log("Update Request Payload:", req.body);
-  const result = await blogServices.updateCourseIntoDB(id, req.body);
+  const result = await blogServices.updateblogsIntoDB(id, req.body);
+
+
+  if (!result) {
+    throw new AppError(httpStatus.NOT_FOUND, `Blog with ID ${id} not found.`);
+  }
+
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

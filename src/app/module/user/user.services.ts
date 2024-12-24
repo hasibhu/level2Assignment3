@@ -4,7 +4,7 @@ import { TUser } from "./user.interface"
 import { UserModel } from "./user.model"
 
 
-
+// create user 
 
 const createUserInDB = async (payload : TUser) => {
     
@@ -12,8 +12,9 @@ const createUserInDB = async (payload : TUser) => {
 
   // Check if a user with the given email already exists
   const existingUser = await UserModel.findOne({ email: newUserEmail });
+  
   if (existingUser) {
-    throw new AppError( httpStatus.CONFLICT, `A user with email: ${newUserEmail} is already exist.`);
+    throw new AppError( httpStatus.BAD_REQUEST, `An user with email: ${newUserEmail} is already exist.`);
   }
 
     const result = await UserModel.create(payload);
@@ -22,6 +23,7 @@ const createUserInDB = async (payload : TUser) => {
 }
 
 
+// get all users 
 const getAllUsers = async () => {
     
     const user = await UserModel.find();

@@ -13,10 +13,7 @@ interface IBlog extends Document {
   isPublished: Boolean;
 }
 
-// const AuthorSchema = new Schema<IAuthor>({
-//   name: { type: String, required: true },
-//   email: { type: String, required: true },
-// });
+
 
 const AuthorSchema = new Schema<IAuthor>({
   // id: { type: String, required: true }, // Include author ID

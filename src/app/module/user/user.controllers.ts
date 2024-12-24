@@ -23,6 +23,8 @@ const createUser  = catchAsync( async (req, res) => {
 });
 
 
+// get all users  s
+
 const getAllUsersController = catchAsync( async (req, res) => {
 
     // const zodParsedData = studentValidationSchema.parse(studentData);

@@ -24,28 +24,33 @@ const createBlogInDB = async (payload: TBlog) => {
 
 
 
-
-
-
 const getAllBlogsFromDB = async (query: Record<string, unknown>) => {
+ 
   const blogQuery = new QueryBuilder(BlogModel.find(), query)
-    .search(['title', 'content'])
-    .filter()
-    .sort();
-
+    .search(['title', 'content'])  
+    .filter()  
+    .sort();  
+    
   const result = await blogQuery.modelQuery;
+
   return result;
 };
 
 
 
 
-// update blog into db 
-const updateCourseIntoDB = async (id: string, payload: Partial<TBlog>) => {
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-    throw new AppError(httpStatus.BAD_REQUEST, 'Invalid blog ID!');
-  }
+
+
+
+// update blog into db 
+const updateblogsIntoDB = async (id: string, payload: Partial<TBlog>) => {
+
+    const check = await BlogModel.findById(id)
+  
+    if (!check) {
+        throw new AppError(httpStatus.BAD_REQUEST, `There is no blog with ID: ${id}`);
+    }
 
     if (Object.keys(payload).length === 0) {
         throw new AppError(httpStatus.BAD_REQUEST, 'At least one field must be updated!');
@@ -62,7 +67,7 @@ const updateCourseIntoDB = async (id: string, payload: Partial<TBlog>) => {
             
         );
 
-         if (!updateBlogInfo) {
+    if (!updateBlogInfo) {
       throw new AppError(httpStatus.BAD_REQUEST, 'Failed to update blog!');
     }
 
@@ -73,7 +78,11 @@ const updateCourseIntoDB = async (id: string, payload: Partial<TBlog>) => {
 // delete blog by user 
 const deleteBlogFromDB = async (id : string) => {
     
-    
+     const check = await BlogModel.findById(id)
+  
+    if (!check) {
+        throw new AppError(httpStatus.BAD_REQUEST, `There is no blog with ID: ${id}`);
+    }
     const result = await BlogModel.findByIdAndDelete(id, {isDeleted: true})
    
     return result;
@@ -86,6 +95,6 @@ const deleteBlogFromDB = async (id : string) => {
 export const blogServices = {
     createBlogInDB,
     getAllBlogsFromDB,
-    updateCourseIntoDB,
+    updateblogsIntoDB,
     deleteBlogFromDB
 }

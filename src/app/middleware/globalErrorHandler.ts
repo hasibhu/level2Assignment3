@@ -53,11 +53,16 @@ const globalErrorHandle: ErrorRequestHandler = (err, req, res, next) => {
     ];
   }
 
-  // Send the error response without `return`
+ 
+
   res.status(statusCode).json({
     success: false,
     message,
-    errorSources,
+    statusCode,
+    error: {
+      details: err.details || message,
+    },
+    stack: config.NODE_ENV === 'production' ? err.stack : undefined,
   });
 };
 

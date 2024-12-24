@@ -40,9 +40,11 @@ export const adminValidationMidddleware = () => {
       role: string;
     };
 
-    console.log(decoded);
+   console.log(decoded.role);
+
+    
     if (decoded.role !== 'admin') {
-        throw new AppError(httpStatus.CONFLICT, "Only an admin is allowed to accomplish this task !!");
+        throw new AppError(httpStatus.BAD_REQUEST, "Only an admin is allowed to use this blog delete api. Please use admin login and set admin token!!");
     }
 
     // Attach user to req object

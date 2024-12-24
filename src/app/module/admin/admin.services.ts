@@ -20,9 +20,13 @@ const getAllUsersFromDB = () => {
 // update blog into db 
 const blockUserByAdminInDB = async (id: string, payload: Partial<TUser>) => {
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        throw new AppError(httpStatus.BAD_REQUEST, 'Invalid blog ID!');
+    const check = await UserModel.findById(id)
+    console.log(check);
+    if (!check) {
+        throw new AppError(httpStatus.BAD_REQUEST, `There is no user with ID: ${id}`);
     }
+
+    
 
     if (Object.keys(payload).length === 0) {
         throw new AppError(httpStatus.BAD_REQUEST, 'At least one field must be updated!');

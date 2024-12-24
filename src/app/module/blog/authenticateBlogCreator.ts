@@ -41,6 +41,7 @@ export const blogValidationMidddleware = () => {
       role: string;
     };
 
+    console.log(decoded);
     // Role validation
     if (decoded.role !== "user") {
       throw new AppError(httpStatus.FORBIDDEN, "Only registered users are allowed to accomplish this task.");

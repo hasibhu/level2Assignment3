@@ -2,23 +2,23 @@ import httpStatus from "http-status";
 import sendResponse from "../../utils/sendResponse";
 import { AuthServices } from "./login.services";
 import catchAsync from "../../utils/catchAsync";
+import catchAsyncLogin from "../../errors/AppErrorcatchAsysnc";
 
 
 
 
-const loginUser = catchAsync(async (req, res) => {
+const loginUser = catchAsyncLogin(async (req:any, res:any) => {
     
 
     const result = await AuthServices.loginUserService(req.body)
 
-    // console.log(result);
-    // res.setHeader("Authorization", `Bearer ${result?.accessToken}`);
+
 
 
     sendResponse(res, {
         statusCode: httpStatus.OK,
         success: true,
-        message: "User loged in successfully",
+        message: "User login is successfully",
         data: result
     })
 })
