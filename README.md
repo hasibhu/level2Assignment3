@@ -29,7 +29,7 @@ JWT
  https://level2-assignment3-nu.vercel.app 
 
 ## Register User
- https://level2-assignment3-nu.vercel.app/api/auth/register
+*use postman application with POST method with url   https://level2-assignment3-nu.vercel.app/api/auth/register
 
 #### Request Body:
 
@@ -54,11 +54,13 @@ for admin register:
 }
 ```
 
+#### get all users
+https://level2-assignment3-nu.vercel.app/api/allUsers/
 
 
 #### Login User
 Metod: POST  
-api format: https://level2-assignment3-nu.vercel.app/api/auth/login
+* use postman application with POST method with url  https://level2-assignment3-nu.vercel.app/api/auth/login
 
 Description: Authenticates a user with their email and password and generates a JWT token.
 
@@ -91,8 +93,12 @@ Success (200):
 ## Blog Management 
 
 #### To insert blog content info in DB
-* use postman application with POST method with url  https://level2-assignment3-nu.vercel.app/api/blogs
-* data format will be in the following format and business log will add author info like- name, email and author id from the user list 
+* use postman application with GET method with url  https://level2-assignment3-nu.vercel.app/api/blogs
+* data format will be in the following format and business log will add author info like- name, email and author id from the user list.
+
+Request Header:Authorization: Bearer <token>
+
+
 ```json
 {
   "title": "My First Blog",
@@ -103,10 +109,14 @@ Success (200):
 
 #### To update blog info in DB
 
-* use postman application with PUT method with url https://level2-assignment3-nu.vercel.app/api/blogs/:id
+* use postman application with PATCH method with url https://level2-assignment3-nu.vercel.app/api/blogs/:id
 
 * Use blog id at the end of the url replacing ":id". 
 * Data format will be in the following format: you may send both or either one to update.
+
+Request Header:Authorization: Bearer <token>
+
+
 ```json
 {
   "title": "Your desired title",
@@ -118,6 +128,7 @@ Success (200):
 
 * use postman application with DELETE method with url https://level2-assignment3-nu.vercel.app/api/blogs/:id
 * Use blog id at the end of the url replacing ":id". 
+Request Header:Authorization: Bearer <token>
 
 
 #### Get All Blogs (Public)
@@ -148,8 +159,9 @@ Replace ":userId" with user id from db
 Request Header:Authorization: Bearer <admin_token>
 
 Response:
-```json
 Success (200):
+```json
+
 {
   "success": true,
   "message": "User blocked successfully",
@@ -164,8 +176,10 @@ Replace ":id" with blog id from db
 Request Header:Authorization: Bearer <admin_token>
 
 Response:
-```json
 Success (200):
+
+```json
+
 {
   "success": true,
   "message": "Blog deleted successfully",
